@@ -8,7 +8,7 @@ namespace just_todo_list_api.Models
         string Name { get; set; }
         string Description { get; set; }
         bool IsComplete { get; set; }
-        DateTime CreatedDate { get; set; }
-        DateTime FinishDate { get; set; }
+        DateTime? CreatedDate { get; set; }
+        DateTime? FinishDate { get; set; }
     }
 }
