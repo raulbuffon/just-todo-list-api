@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using just_todo_list_api.Models;
+using just_todo_list_api.Repositories;
 
 namespace just_todo_list_api
 {
@@ -31,6 +32,8 @@ namespace just_todo_list_api
             services.AddDbContext<TodoContext>(opt => 
                 opt.UseSqlServer(Configuration.GetConnectionString("TodoListDb"))
             );
+
+            services.AddScoped<TodoItemRepository>();
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
