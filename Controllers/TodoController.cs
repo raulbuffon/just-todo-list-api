@@ -24,9 +24,17 @@ namespace just_todo_list_api.Controllers
 
         [HttpGet]
         //GET /api/Todo
-        public ActionResult<ITodoItem> GetAll()
+        public IQueryable<TodoItem> GetAll()
         {
-            return null;
+            return todoItemRepository.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        //GET /api/Todo/id
+        public async Task<ActionResult<TodoItem>> GetById(int id)
+        {
+            var todoItem = await todoItemRepository.GetById(id);
+            return Ok(todoItem);
         }
 
         [HttpPost]
