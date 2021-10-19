@@ -44,5 +44,21 @@ namespace just_todo_list_api.Controllers
             var newTodoItem = await todoItemRepository.Post(todoItem);
             return newTodoItem;
         }
+
+        [HttpPut]
+        //PUT /api/Todo
+        public async Task<ActionResult<TodoItem>> Put([FromBody]TodoItem todoItem)
+        {
+            var editedTodoItem = await todoItemRepository.Put(todoItem);
+            return editedTodoItem;
+        }
+
+        [HttpDelete("id")]
+        //DELETE /api/Todo
+        public async Task<ActionResult<TodoItem>> Delete(int id)
+        {
+            var newTodoItem = await todoItemRepository.Delete(id);
+            return Ok();
+        }
     }
 }

@@ -32,5 +32,24 @@ namespace just_todo_list_api.Repositories
             
             return todoItem;
         }
+
+        public async Task<TodoItem> Put(TodoItem todoItem)
+        {
+            var existingItem = todoRepository.TodoItems.Find(todoItem.Id);
+            todoRepository.TodoItems.Remove(existingItem);
+            await todoRepository.TodoItems.AddAsync(todoItem);
+            await todoRepository.SaveChangesAsync();
+            
+            return todoItem;
+        }
+
+        public async Task<TodoItem> Delete(int id)
+        {
+            var existingItem = todoRepository.TodoItems.Find(id);
+            todoRepository.TodoItems.Remove(existingItem);
+            await todoRepository.SaveChangesAsync();
+            
+            return null;
+        }
     }
 }
