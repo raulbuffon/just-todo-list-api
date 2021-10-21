@@ -23,6 +23,8 @@ namespace just_todo_list_api.Models
         
         [StringLength(200, ErrorMessage = "Name lenght can't be more than 200.")]
         public string Description { get; set; }
+
+        [Required]
         public bool IsComplete { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? FinishDate { get; set; }

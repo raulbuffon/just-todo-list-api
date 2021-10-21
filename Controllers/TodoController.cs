@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -41,16 +42,30 @@ namespace just_todo_list_api.Controllers
         //POST /api/Todo
         public async Task<ActionResult<TodoItem>> Post([FromBody]TodoItem todoItem)
         {
-            var newTodoItem = await todoItemRepository.Post(todoItem);
-            return newTodoItem;
+            if(ModelState.IsValid)
+            {
+                var newTodoItem = await todoItemRepository.Post(todoItem);
+                return newTodoItem;
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut]
         //PUT /api/Todo
         public async Task<ActionResult<TodoItem>> Put([FromBody]TodoItem todoItem)
         {
-            var editedTodoItem = await todoItemRepository.Put(todoItem);
-            return editedTodoItem;
+            if(ModelState.IsValid)
+            {
+                var newTodoItem = await todoItemRepository.Put(todoItem);
+                return newTodoItem;
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("id")]
