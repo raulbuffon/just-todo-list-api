@@ -35,7 +35,15 @@ namespace just_todo_list_api.Controllers
         public async Task<ActionResult<TodoItem>> GetById(int id)
         {
             var todoItem = await todoItemRepository.GetById(id);
-            return Ok(todoItem);
+
+            if(todoItem == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(todoItem);
+            } 
         }
 
         [HttpPost]
