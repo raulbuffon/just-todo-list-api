@@ -11,6 +11,7 @@ namespace just_todo_list_api.Models
         bool IsComplete { get; set; }
         DateTime? CreatedDate { get; set; }
         DateTime? FinishDate { get; set; }
+        Category Category { get; set; }
     }
 
     public class TodoItem : ITodoItem
@@ -28,5 +29,6 @@ namespace just_todo_list_api.Models
         public bool IsComplete { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? FinishDate { get; set; }
+        public Category Category { get; set; }
     }
 }
