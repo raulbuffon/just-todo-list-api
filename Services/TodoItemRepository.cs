@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using just_todo_list_api.Models;
@@ -12,35 +14,43 @@ namespace just_todo_list_api.Repositories
             this.todoRepository = todoRepository;
         }
 
-        public IQueryable<TodoItem> GetAll()
+        public IEnumerable<TodoItem> GetAll()
         {
-            IQueryable<TodoItem> result = todoRepository.TodoItems;
+            var result = todoRepository.TodoItems.Include(x => x.Category).ToList();
             
             return result;
         }
 
         public async Task<TodoItem> GetById(int id)
         {
-            var result = await todoRepository.TodoItems.FindAsync(id);
+            var result = await todoRepository.TodoItems.Include(x => x.Category).Where(item => item.Id == id).FirstAsync();
             return result;
         }
 
         public async Task<TodoItem> Post(TodoItem todoItem)
         {
+            if(!CategoryExists(todoItem.CategoryId))
+                return null;
+
             await todoRepository.TodoItems.AddAsync(todoItem);
             await todoRepository.SaveChangesAsync();
             
-            return todoItem;
+            return await GetById(todoItem.Id);
         }
 
         public async Task<TodoItem> Put(TodoItem todoItem)
         {
+            if(!CategoryExists(todoItem.CategoryId))
+                return null;
+
             var existingItem = todoRepository.TodoItems.Find(todoItem.Id);
+
             todoRepository.TodoItems.Remove(existingItem);
             await todoRepository.TodoItems.AddAsync(todoItem);
+
             await todoRepository.SaveChangesAsync();
             
-            return todoItem;
+            return await GetById(todoItem.Id);
         }
 
         public async Task<TodoItem> Delete(int id)
@@ -50,6 +60,13 @@ namespace just_todo_list_api.Repositories
             await todoRepository.SaveChangesAsync();
             
             return null;
+        }
+
+        private bool CategoryExists(int categoryId)
+        {
+            bool existsInDb = todoRepository.Categories.Where(x => x.Id == categoryId).Any();
+
+            return existsInDb;
         }
     }
 }

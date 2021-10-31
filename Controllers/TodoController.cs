@@ -25,7 +25,7 @@ namespace just_todo_list_api.Controllers
 
         [HttpGet]
         //GET /api/Todo
-        public IQueryable<TodoItem> GetAll()
+        public IEnumerable<TodoItem> GetAll()
         {
             return todoItemRepository.GetAll();
         }
@@ -50,30 +50,20 @@ namespace just_todo_list_api.Controllers
         //POST /api/Todo
         public async Task<ActionResult<TodoItem>> Post([FromBody]TodoItem todoItem)
         {
-            if(ModelState.IsValid)
-            {
-                var newTodoItem = await todoItemRepository.Post(todoItem);
-                return newTodoItem;
-            }
-            else
-            {
-                return BadRequest();
-            }
+            if(!ModelState.IsValid) return BadRequest();
+
+            var newTodoItem = await todoItemRepository.Post(todoItem);
+            return newTodoItem;
         }
 
         [HttpPut]
         //PUT /api/Todo
         public async Task<ActionResult<TodoItem>> Put([FromBody]TodoItem todoItem)
         {
-            if(ModelState.IsValid)
-            {
-                var newTodoItem = await todoItemRepository.Put(todoItem);
-                return newTodoItem;
-            }
-            else
-            {
-                return BadRequest();
-            }
+            if(!ModelState.IsValid) return BadRequest();
+
+            var newTodoItem = await todoItemRepository.Put(todoItem);
+            return newTodoItem;
         }
 
         [HttpDelete("id")]
