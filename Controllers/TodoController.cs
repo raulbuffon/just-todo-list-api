@@ -25,7 +25,7 @@ namespace just_todo_list_api.Controllers
 
         [HttpGet]
         //GET /api/Todo
-        public IEnumerable<TodoItem> GetAll()
+        public IEnumerable<TodoItem> GetAllOnRequest()
         {
             return todoItemRepository.GetAll();
         }
@@ -36,14 +36,9 @@ namespace just_todo_list_api.Controllers
         {
             var todoItem = await todoItemRepository.GetById(id);
 
-            if(todoItem == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(todoItem);
-            } 
+            if(todoItem == null) return NotFound();
+
+            return Ok(todoItem);
         }
 
         [HttpPost]
